@@ -30,9 +30,11 @@ The following (JSON) format will define what is needed:
   		quantity:(optional, default: 1)'number of times we expect to see this 
   				attribute',
   		composite:(optional, default: none)'a list of composite identifiers 
-  				to search for that are in the scope of this specific object',
+  				to search for that are in the scope of this specific 
+  				object',
   		hierarchy:(optional, default: none)'a comprehensive hierarchy that 
-  				leads to the attribute, in order from the root to the attribute', 
+  				leads to the attribute, in order from the root to the 
+  				attribute', 
   		ancestor:(optional, default: none)'an expected ancestor (or ancestors) 
   				belongs to this attribute'
   	} 
