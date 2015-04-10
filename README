@@ -1,0 +1,47 @@
+JSON Validation Kit v1.0
+
+This is a Utility library meant to make JSON operations, particularly
+  comparison of deserialized complex objects easier.
+  
+  Doing a comparison in complex JSON objects has been tedious because it's
+  either too strict a comparison (straight string comparison) or not strict
+  enough (random false positives).
+  
+  Here's an example of something we've run into for automated verification:
+  
+  {value1: [{status:false},{cause:service}],
+  value2:[{status:true},{cause:device}]} {value1:
+  [{status:false},{cause:service}], value2:[{status:false},{cause:device}]}
+  {value1: [{status:false},{cause:service}],
+  value2:[{status:true},{cause:device}]}
+  
+  
+  The goal is to have as flexible a way to verify that this data is there
+  without having to completely reproducing the data in a verification input.
+  
+  The input for the verifier, in order to provide flexibility and verbosity
+  needed to convey the verification constraints will be accepted as a JSON
+  string.
+  
+  The following format will define what is needed: 
+  --- A JSON Object OR a JSON Array of objects that represents the attribute(s) you want to verify and how
+  you want them to be verified 
+  
+  [ 
+  		{
+  			attribute:'name of attribute to verify',
+  			value:(optional, default:none)'a (string representation) value or list of
+  					values if multiples of this attribute are expected', 
+  			quantity:(optional, default: 1)'number of times we expect to see this attribute',
+  			composite:(optional, default: none)'a list of composite identifiers to search for that are in the scope of this specific object',
+  			hierarchy:(optional, default: none)'an expected comprehensive hierarchy that leads to the attribute, in order from the root', 
+  			ancestor:(optional, default: none)'an expected ancestor belongs to this attribute'
+  		} 
+  ]
+  
+  -- Since JSON keys within an object are meant to be unique, quantity
+  represents the number of attributes within a whole JSON. i.e. {mainAttribute:
+  [{minor-attibute: val1}, {minor-attribute: val2}, {minor-attribute: val3} }
+  
+  for the following validation: 'attribute':'minor-attribute', quantity:3 in
+  this case.
