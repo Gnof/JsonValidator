@@ -22,6 +22,7 @@ public class ValidationWorkerTest {
 	ValidationUnit ancestorValidation;
 	ValidationUnit ancestor2Validation;
 	ValidationUnit compositeValidation;
+	ValidationUnit compositeFalseValidation;
 	ValidationUnit carlosValidation;
 
 	JsonObject baseToValidate;
@@ -171,6 +172,14 @@ public class ValidationWorkerTest {
 		flist.add(f2);
 		flist.add(f3);
 		compositeToValidate.add("properties", flist);
+		
+		// ---- Composite False instantiation
+		JsonObject compositeFalseJson = new JsonObject();
+		compositeFalseJson.addProperty("attribute", "foo");
+		compositeFalseJson.addProperty("value", "bam");
+		String compositeFalseString = "{\"attribute\":\"comp2\", \"value\":\"no\"}";
+		compositeFalseJson.addProperty("composite", compositeFalseString);
+		compositeFalseValidation = new ValidationUnit(compositeFalseJson);
 
 		// ---- Carlos' example, to show him that the example he
 		// gave me works in this utility
@@ -188,13 +197,11 @@ public class ValidationWorkerTest {
 
 	}
 
-	// TODO: Update these unit tests with validations as they come
-
 	@Test
 	public void testBaseValidation() {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(baseValidation, baseToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.HAS_ATTRIBUTE)
+		assertTrue(validResult.get(ValidationWorker.HAS_ATTRIBUTE)
 				.getAsBoolean());
 	}
 
@@ -202,7 +209,7 @@ public class ValidationWorkerTest {
 	public void testFalseValidation() {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(falseValidation, baseToValidate);
-		assertNotEquals(true, validResult.get(ValidationWorker.HAS_ATTRIBUTE)
+		assertFalse(validResult.get(ValidationWorker.HAS_ATTRIBUTE)
 				.getAsBoolean());
 	}
 
@@ -211,7 +218,7 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(oneLevelValidation,
 				oneLevelToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.HAS_ATTRIBUTE)
+		assertTrue(validResult.get(ValidationWorker.HAS_ATTRIBUTE)
 				.getAsBoolean());
 	}
 
@@ -220,9 +227,9 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(multipleValidation,
 				multipleBaseToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.HAS_ATTRIBUTE)
+		assertTrue(validResult.get(ValidationWorker.HAS_ATTRIBUTE)
 				.getAsBoolean());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_VALUE)
+		assertTrue(validResult.get(ValidationWorker.MATCH_VALUE)
 				.getAsBoolean());
 
 	}
@@ -232,7 +239,7 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(multipleValidation,
 				multipleBaseToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_QUANTITY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_QUANTITY)
 				.getAsBoolean());
 		assertEquals(2, validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt());
@@ -243,15 +250,14 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(hierarchyValidation,
 				hierarchyToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_HIERARCHY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_HIERARCHY)
 				.getAsBoolean());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_QUANTITY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_QUANTITY)
 				.getAsBoolean());
 		assertEquals(3, validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt());
 		// this check is to verify that the quantity found matches the number of
-		// paths found
-		System.out.println(validResult);
+		// paths found		
 		assertEquals(validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt(), validResult.get(ValidationWorker.HIERARCHY_FOUND)
 				.getAsJsonArray().size());
@@ -262,13 +268,13 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(ancestorValidation,
 				ancestorToValidate);		
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_HIERARCHY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_HIERARCHY)
 				.getAsBoolean());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_QUANTITY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_QUANTITY)
 				.getAsBoolean());
 		assertEquals(3, validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_ANCESTOR)
+		assertTrue(validResult.get(ValidationWorker.MATCH_ANCESTOR)
 				.getAsBoolean());
 		// this check is to verify that the quantity found matches the number of
 		// paths found
@@ -283,13 +289,13 @@ public class ValidationWorkerTest {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(ancestor2Validation,
 				ancestor2ToValidate);
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_HIERARCHY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_HIERARCHY)
 				.getAsBoolean());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_QUANTITY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_QUANTITY)
 				.getAsBoolean());
 		assertEquals(3, validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_ANCESTOR)
+		assertTrue(validResult.get(ValidationWorker.MATCH_ANCESTOR)
 				.getAsBoolean());		
 	}
 
@@ -297,17 +303,25 @@ public class ValidationWorkerTest {
 	public void testCompositeBaseValidation() {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(compositeValidation, compositeToValidate);		
-		System.out.println(compositeToValidate);
-		System.out.println(validResult);
+		assertTrue(validResult.get(ValidationWorker.HAS_ATTRIBUTE).getAsBoolean());
+		assertTrue(validResult.get(ValidationWorker.MATCH_COMPOSITE).getAsBoolean());
+	}
+	
+	@Test
+	public void testCompositeFailValidation() {
+		ValidationWorker vw = new ValidationWorker();
+		JsonObject validResult = vw.validate(compositeFalseValidation, compositeToValidate);		
+		assertTrue(validResult.get(ValidationWorker.HAS_ATTRIBUTE).getAsBoolean());
+		assertFalse(validResult.get(ValidationWorker.MATCH_COMPOSITE).getAsBoolean());
 	}
 
 	@Test
 	public void testCarlosScenario() {
 		ValidationWorker vw = new ValidationWorker();
 		JsonObject validResult = vw.validate(carlosValidation, carlosScenario);
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_HIERARCHY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_HIERARCHY)
 				.getAsBoolean());
-		assertEquals(true, validResult.get(ValidationWorker.MATCH_QUANTITY)
+		assertTrue(validResult.get(ValidationWorker.MATCH_QUANTITY)
 				.getAsBoolean());
 		assertEquals(2, validResult.get(ValidationWorker.QUANTITY_FOUND)
 				.getAsInt());

@@ -87,7 +87,7 @@ public class ValidationUnitTest {
 		// quantity not set defaults to -1
 		assertEquals(-1, vu.getQuantity());
 		assertNull(vu.getValue());
-		assertEquals(false, vu.hasValue());
+		assertFalse(vu.hasValue());
 	}
 
 	@Test
