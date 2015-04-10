@@ -1,4 +1,4 @@
-JSON Validation Kit v1.0
+JSON Validator v1.0
 
 This is a Utility library meant to make JSON operations, particularly 
 comparison of deserialized complex objects easier.
