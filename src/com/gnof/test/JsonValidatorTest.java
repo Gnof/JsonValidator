@@ -1,11 +1,11 @@
-package test;
+package com.gnof.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import core.JsonValidator;
+import com.gnof.core.JsonValidator;
 
 public class JsonValidatorTest {
 

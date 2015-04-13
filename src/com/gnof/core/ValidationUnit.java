@@ -1,10 +1,9 @@
-package core;
+package com.gnof.core;
 
 import java.util.ArrayList;
 
+import com.gnof.exceptions.InvalidValidationJson;
 import com.google.gson.*;
-
-import exceptions.InvalidValidationJson;
 
 /**
  * 

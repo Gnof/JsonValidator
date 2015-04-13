@@ -1,4 +1,4 @@
-package exceptions;
+package com.gnof.exceptions;
 
 public class InvalidValidationJson extends Exception {
 

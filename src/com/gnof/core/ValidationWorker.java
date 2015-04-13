@@ -1,4 +1,4 @@
-package core;
+package com.gnof.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,8 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.gnof.exceptions.InvalidValidationJson;
 import com.google.gson.*;
-
-import exceptions.InvalidValidationJson;
 
 /**
  * Performs validation work given a ValidationUnit object as criteria and a JSON

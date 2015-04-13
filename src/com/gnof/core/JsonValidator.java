@@ -1,13 +1,12 @@
-package core;
+package com.gnof.core;
 
 import java.util.HashMap;
 
+import com.gnof.exceptions.InvalidValidationJson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import exceptions.InvalidValidationJson;
 
 /**
  * This is a Utility library meant to make JSON operations, particularly

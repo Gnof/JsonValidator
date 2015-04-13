@@ -1,4 +1,4 @@
-package test;
+package com.gnof.test;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gnof.core.ValidationUnit;
+import com.gnof.exceptions.InvalidValidationJson;
 import com.google.gson.*;
-
-import core.ValidationUnit;
-import exceptions.InvalidValidationJson;
 
 public class ValidationUnitTest {
 
@@ -74,7 +73,7 @@ public class ValidationUnitTest {
 		} 
 		catch (InvalidValidationJson e)
 		{			
-			String error = "exceptions.InvalidValidationJson: 'attribute' missing from Validation JSON";
+			String error = "com.gnof.exceptions.InvalidValidationJson: 'attribute' missing from Validation JSON";
 			assertEquals(error, e.toString());
 		}
 		assertNull(vu);		

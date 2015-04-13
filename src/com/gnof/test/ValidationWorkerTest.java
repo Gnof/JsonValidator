@@ -1,16 +1,15 @@
-package test;
+package com.gnof.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gnof.core.ValidationUnit;
+import com.gnof.core.ValidationWorker;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import core.ValidationUnit;
-import core.ValidationWorker;
 
 public class ValidationWorkerTest {
 
