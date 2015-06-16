@@ -86,6 +86,9 @@ import com.google.gson.JsonParser;
  */
 public class JsonValidator {
 
+	public static final String VALIDATION_RESULT = "validation-result";
+	public static final String VALIDATION_DETAILS = "validation-details";
+	
 	/**
 	 * result of the last validate run 
 	 */
@@ -180,8 +183,8 @@ public class JsonValidator {
 				lastResult = validationResult;
 				// instantiate objects to store
 				JsonObject resultObject = new JsonObject();
-				resultObject.addProperty("validation-result", validationResult);
-				resultObject.add("validation-details", result);
+				resultObject.addProperty(JsonValidator.VALIDATION_RESULT, validationResult);
+				resultObject.add(JsonValidator.VALIDATION_DETAILS, result);
 				// add to results detail hash
 				validationDetail.put(currValidation, resultObject);
 				// tally up overall pass / fail

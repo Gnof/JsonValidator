@@ -2,10 +2,15 @@ package com.gnof.test;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.gnof.core.JsonValidator;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class JsonValidatorTest {
 
@@ -42,6 +47,26 @@ public class JsonValidatorTest {
 		JsonValidator validator = new JsonValidator();		
 		boolean result = validator.validate(basicValidation, basicValidationTarget);
 		assertTrue(result);
+	}
+	
+	@Test
+	public void testValidationResultAndDetailParse() {
+		JsonValidator validator = new JsonValidator();		
+		boolean result = validator.validate(basicValidation, basicValidationTarget);
+		assertTrue(result);
+		HashMap<JsonObject, JsonObject> deetmap = validator.getLastValidationDetail();
+		
+		// Need to pass in a JSON Element as a key to retrieve the validation result object
+		JsonParser parser = new JsonParser();
+		JsonElement validateJson = parser.parse(basicValidation);
+		JsonObject deets = deetmap.get(validateJson);
+		
+		// retrieving the result and the details
+		Boolean testResult = deets.get(JsonValidator.VALIDATION_RESULT).getAsBoolean();
+		JsonObject results = deets.get(JsonValidator.VALIDATION_DETAILS).getAsJsonObject();
+		
+		assertTrue(testResult);
+		assertNotNull(results);				
 	}
 	
 	@Test
