@@ -193,7 +193,6 @@ public class ValidationWorkerTest {
 		String carlosJsonString = "{value1: [{status:false},{cause:service}], value2:[{status:true},{cause:device}]}";
 		JsonParser parser = new JsonParser();
 		carlosScenario = (JsonObject) parser.parse(carlosJsonString);
-
 	}
 
 	@Test

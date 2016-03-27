@@ -261,7 +261,17 @@ public class ValidationWorker {
 		}
 
 		for (int i = 0; i < attributeValues.size(); i++) {
-			String currValue = attributeValues.get(i).getAsString();
+			JsonElement currJsonVal = attributeValues.get(i);
+			String currValue;
+			if (currJsonVal.isJsonArray())
+			{
+				currValue = currJsonVal.toString();
+				
+			} 
+			else
+			{
+				currValue = attributeValues.get(i).getAsString();
+			}
 			if (valuesToValidate.contains(currValue)) {
 				valuesToValidate.remove(currValue);
 			}
@@ -620,7 +630,19 @@ public class ValidationWorker {
 				gatherObjectDataHelper((JsonObject) value, objectData);
 			} else if (value.isJsonArray()) {
 				for (JsonElement j : (JsonArray) value) {
-					gatherObjectDataHelper((JsonObject) j, objectData);
+					//if there's a list of primitives, like strings or ints 
+					if (j.isJsonPrimitive())
+					{
+						JsonArray valueList = currVal.get("values").getAsJsonArray();
+						valueList.add(j);
+						currVal.remove("values");
+						currVal.add("values", valueList);
+						objectData.put(currKey, currVal);						
+					}
+					else
+					{
+						gatherObjectDataHelper((JsonObject) j, objectData);
+					}
 				}
 			}
 		}

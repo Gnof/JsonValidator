@@ -150,7 +150,11 @@ public class ValidationUnit {
 			String hierarchyString = hierarchyElement.getAsString();
 			try {
 				hierarchy = (ArrayList<ArrayList<String>>) gson.fromJson(hierarchyString, ArrayList.class);				
-			} catch (JsonSyntaxException | ClassCastException e) {
+			} catch (JsonSyntaxException e) {
+				System.out.println("Unrecognized format for hierarchy. Should be a list of arrays. ex: [[path1, path2], [path1]]");							
+				hierarchy = null;
+			} catch (ClassCastException e)
+			{
 				System.out.println("Unrecognized format for hierarchy. Should be a list of arrays. ex: [[path1, path2], [path1]]");							
 				hierarchy = null;
 			}
@@ -162,7 +166,10 @@ public class ValidationUnit {
 			try {
 				ancestor = (ArrayList<String>) gson.fromJson(ancestorString,
 						ArrayList.class);
-			} catch (JsonSyntaxException | ClassCastException e) {
+			} catch (JsonSyntaxException e) {
+				ancestor = ancestorString;
+			} catch (ClassCastException e)
+			{
 				ancestor = ancestorString;
 			}
 
